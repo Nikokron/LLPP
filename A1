@@ -1,0 +1,30 @@
+void Ped::Model::tick()
+{
+	// EDIT HERE FOR ASSIGNMENT 1
+	agents = getAgents();
+	//std::vector<std::thread*> threads;
+
+	int tid;
+#pragma omp parallel
+#pragma omp for
+	for (int i = 0; i < 1; i++) {
+		tid = omp_get_thread_num();
+		cout << agents.size() << endl;
+	}
+
+#pragma omp parallel
+#pragma omp for
+	for (int i = 0; i < agents.size(); i++) {
+		agents[i]->computeNextDesiredPosition();
+		agents[i]->setX(agents[i]->getDesiredX());
+		agents[i]->setY(agents[i]->getDesiredY());
+	}
+	/*
+	for (Tagent* i : agents) {
+		i->computeNextDesiredPosition();
+		i->setX(i->getDesiredX());
+		i->setY(i->getDesiredY());
+	}
+	*/
+	cleanup();
+}
